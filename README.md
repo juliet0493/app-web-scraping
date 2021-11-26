@@ -1,10 +1,12 @@
 # The largest heading
 
 ## Project Structure
+```
 **./dags** - Contains DAG files.
 **./logs** - Contains logs from task execution and scheduler.
 **./plugins** - Contains custom plugins.
 **./config** - Contains configuration files (Sql scripts and postgres credentials).
+```
 
 ## Setting up
 
