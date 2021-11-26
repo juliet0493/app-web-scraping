@@ -18,7 +18,7 @@ payment_seq as (
 		year, 
 		month,
 		customer_id,
-		sum(payment_amount) as total_payment_amount,
+		sum(payment_amount*qty) as total_payment_amount,
 		row_number() over (partition by month order by sum(payment_amount) desc) as sequence
 	FROM aggr_sales 
 	group by year, month, customer_id
