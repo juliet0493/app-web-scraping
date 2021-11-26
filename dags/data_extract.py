@@ -29,7 +29,7 @@ def extract_sql(sql_path):
     with open(sql_path) as f:
         sql = f.read()
     df = pd.read_sql(sql, con=dbconnect)
-    filename = sql_path.rsplit(".", maxsplit=1)[0].rsplit("/", maxsplit=1)[0]
+    filename = sql_path.split(".", maxsplit=1)[0].rsplit("/", maxsplit=1)[1]
     df.to_csv(f"{filename}_%s.csv" % date.today().strftime("%Y%m%d"), encoding='utf-8', index=False)
     return 
 
