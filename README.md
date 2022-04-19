@@ -27,7 +27,7 @@ DATABASE=postgres
 HOST=XXXXXX
 ```
 
-### Running Airflow in Docker
+### Initiating Airflow in Docker
 `docker-compose --env-file .env up`
 
 #### docker-compose.yaml
@@ -49,9 +49,4 @@ airflow scheduler
 ```
 
 ### DAGs
-Contains tasks that take data from postgres and output the return data as csv.
-- **aggr_sales** - Aggregated sales.
-- **top_selling_product** - Top three selling product ids on a monthly basis.
-- **top_purchase_customer** - Top three customer_ids based on transaction value on a monthly basis.
-- **non_pants_buyer** - Customer_ids (having transactions) who have never purchased pants(subcategory) from yet.
-"# app-web-scraping" 
+Contains tasks that scrap data from webpage and update the data into postgres table.
