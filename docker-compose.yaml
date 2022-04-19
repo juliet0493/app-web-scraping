@@ -49,10 +49,8 @@ x-airflow-common:
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://lb_hiring:${DB_PASSWORD\
-      }@lb-data-hiring.ck58hauhduui.ap-southeast-1.rds.amazonaws.com/postgres"
-    AIRFLOW__CELERY__RESULT_BACKEND: "db+postgresql://lb_hiring:${DB_PASSWORD}@lb-d\
-      ata-hiring.ck58hauhduui.ap-southeast-1.rds.amazonaws.com/postgres"
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://lb_hiring:${DB_PASSWORD}@lb-data-hiring.ck58hauhduui.ap-southeast-1.rds.amazonaws.com/postgres"
+    AIRFLOW__CELERY__RESULT_BACKEND: "db+postgresql://lb_hiring:${DB_PASSWORD}@lb-data-hiring.ck58hauhduui.ap-southeast-1.rds.amazonaws.com/postgres"
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
@@ -76,14 +74,14 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_USER: lb_hiring
-      # POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: postgres
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "lb_hiring" ]
+      test: [ "CMD", "pg_isready", "-U", "username" ]
       interval: 5s
       retries: 5
     restart: on-failure
@@ -128,8 +126,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          'airflow jobs check --job-type SchedulerJob --hostname
-            "$${HOSTNAME}"'
+          'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"'
         ]
       interval: 10s
       timeout: 10s
@@ -146,8 +143,7 @@ services:
     healthcheck:
       test:
         - "CMD-SHELL"
-        - 'celery --app airflow.executors.celery_executor.app inspect ping -d
-          "celery@$${HOSTNAME}"'
+        - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
       interval: 10s
       timeout: 10s
       retries: 5
@@ -169,8 +165,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          'airflow jobs check --job-type TriggererJob --hostname
-            "$${HOSTNAME}"'
+          'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"'
         ]
       interval: 10s
       timeout: 10s

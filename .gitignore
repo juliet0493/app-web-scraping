@@ -131,3 +131,6 @@ local.settings.json
 
 # Prefect custom log file
 flow_log/
+
+# Airflow log file
+logs/
